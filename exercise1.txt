@@ -1,1 +1,9 @@
+mkdir exercises
+cd ./exercises
+git init
 git remote add exercises git@github.com:biokatzen/exercises.git
+nano exercise1.txt
+git add exercise1.txt
+git commit -m "commands to create a remote repository on github"
+git push exercises main
+
