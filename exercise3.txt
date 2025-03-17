@@ -1,0 +1,11 @@
+UNF: paNo, paName, waNo, waName, bedNo, [drugNo, drugName, description, dosage, MOA, Un/d, start, finish]
+1NF: *paNo*, paName, waNo, waName, bedNo, *drugNo*, drugName, description, dosage, MOA, Un/d, *start*, finish
+2NF:
+Patient: *patNo*, paName, waNo, waName, bedNo
+Drug: *drugNo*, drugName, description, dosage, MOA
+Doses: *patientNo*, *drugNo*, *start*, Un/d, finish
+3NF: 
+Patient: *patNo*, paName, waNo, bedNo
+Ward: *waNo*, waName
+Drug: *drugNo*, drugName, description, dosage, MOA
+Doses: *patientNo*, *drugNo*, *start*, Un/d, finish
