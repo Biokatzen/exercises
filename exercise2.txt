@@ -1,0 +1,9 @@
+1NF: _StaffNo, dentistName, patientNo, patientName,_appointment_date, _appointment_time, surgeryNo
+2NF: no partial dependencies
+staff: _StaffNo, dentistName
+DB:_StaffNo, patientNo, patientName, _appointment_date, _appointment_time, surgeryNo
+3NF:
+Appointment:_StaffNo, patientNo, _appointment_date, _appointment_time, surgeryNo
+Staff:_StaffNo, dentistName
+Patient: _patientNo, patientName
+BCNF:=3NF 
