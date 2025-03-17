@@ -1,0 +1,1 @@
+git remote add exercises git@github.com:biokatzen/exercises.git
