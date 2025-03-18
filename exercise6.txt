@@ -1,0 +1,124 @@
+##Exercise 6
+MariaDB [college]> select OfferNo , course.CourseNo , FacFirstName , FacLastName  from offering join course on course.CourseNo =offering.CourseNo join faculty on faculty.FacSSN = offering.FacSSN where FacRank = "ASST" and OffYear =2005 and OffTerm ="Fall" and course.CourseNo like "IS%";
++---------+----------+--------------+-------------+
+| OfferNo | CourseNo | FacFirstName | FacLastName |
++---------+----------+--------------+-------------+
+|    1234 | IS320    | LEONARD      | VINCE       |
+|    4321 | IS320    | LEONARD      | VINCE       |
++---------+----------+--------------+-------------+
+2 rows in set (0.006 sec)
+
+
+MariaDB [college]> SELECT AVG(stdGPA), stdMajor FROM student GROUP BY stdMajor;
++-------------+----------+
+| AVG(stdGPA) | stdMajor |
++-------------+----------+
+|    3.400000 | ACCT     |
+|    2.800000 | FIN      |
+|    3.233333 | IS       |
++-------------+----------+
+3 rows in set (0.001 sec)
+
+
+
+MariaDB [college]> SELECT COUNT(OfferNo) AS offerings, COUNT(DISTINCT(CourseNo)) AS courses, OffYear FROM offering GROUP BY OffYear;
++-----------+---------+---------+
+| offerings | courses | OffYear |
++-----------+---------+---------+
+|         3 |       2 |    2005 |
+|        10 |       6 |    2006 |
++-----------+---------+---------+
+2 rows in set (0.000 sec)
+
+
+MariaDB [college]> select stdMajor , avg(stdGPA) as avgGPA from enrollment join student on student.stdSSN = enrollment.StdSSN where student.stdClass in ("JR","SR") group by stdMajor having avgGPA>3.1;
++----------+----------+
+| stdMajor | avgGPA   |
++----------+----------+
+| ACCT     | 3.500000 |
+| IS       | 3.116667 |
++----------+----------+
+2 rows in set (0.001 sec)
+
+
+MariaDB [college]> SELECT stdMajor, stdClass, MIN(stdGPA) AS min_GPA, MAX(stdGPA) AS max_GPA FROM student GROUP BY stdMajor, stdClass;
++----------+----------+---------+---------+
+| stdMajor | stdClass | min_GPA | max_GPA |
++----------+----------+---------+---------+
+| ACCT     | JR       |    3.50 |    3.50 |
+| ACCT     | SO       |    3.30 |    3.30 |
+| FIN      | JR       |    2.50 |    2.70 |
+| FIN      | SR       |    3.20 |    3.20 |
+| IS       | FR       |    3.00 |    3.00 |
+| IS       | JR       |    3.60 |    3.60 |
+| IS       | SO       |    3.80 |    3.80 |
+| IS       | SR       |    2.20 |    4.00 |
++----------+----------+---------+---------+
+8 rows in set (0.001 sec)
+
+MariaDB [college]> SELECT crsDesc, COUNT(OfferNo) as number_courses FROM course JOIN offering ON course.CourseNo=offering.CourseNo WHERE course.CourseNo LIKE 'IS%' GROUP BY crsDesc;
++--------------------------------------+----------------+
+| crsDesc                              | number_courses |
++--------------------------------------+----------------+
+| FUNDAMENTALS OF BUSINESS PROGRAMMING |              6 |
+| FUNDAMENTALS OF DATABASE MANAGEMENT  |              2 |
+| SYSTEMS ANALYSIS                     |              2 |
++--------------------------------------+----------------+
+3 rows in set (0.001 sec)
+
+
+
+MariaDB [college]> SELECT stdGPA, stdFirstName, stdLastName, stdCity, stdState FROM student WHERE stdClass='JR' ORDER BY stdGPA;
++--------+--------------+-------------+---------+----------+
+| stdGPA | stdFirstName | stdLastName | stdCity | stdState |
++--------+--------------+-------------+---------+----------+
+|   2.50 | ROBERTO      | MORALES     | SEATTLE | WA       |
+|   2.70 | BOB          | NORBERT     | BOTHELL | WA       |
+|   3.50 | CANDY        | KENDALL     | TACOMA  | WA       |
+|   3.60 | MARIAH       | DODGE       | SEATTLE | WA       |
++--------+--------------+-------------+---------+----------+
+4 rows in set (0.000 sec)
+
+
+
+MariaDB [college]>  select  stdFirstName , stdLastName , OfferNo , EnrGrade  from student join enrollment on student.stdSSN = enrollment.StdSSN where EnrGrade >=3.5 ;
++--------------+-------------+---------+----------+
+| stdFirstName | stdLastName | OfferNo | EnrGrade |
++--------------+-------------+---------+----------+
+| CANDY        | KENDALL     |    1234 |     3.50 |
+| MARIAH       | DODGE       |    1234 |     3.80 |
+| HOMER        | WELLS       |    4321 |     3.50 |
+| ROBERTO      | MORALES     |    4321 |     3.50 |
+| BOB          | NORBERT     |    5679 |     3.70 |
+| ROBERTO      | MORALES     |    5679 |     3.80 |
+| MARIAH       | DODGE       |    6666 |     3.60 |
+| LUKE         | BRAZZI      |    7777 |     3.70 |
+| BOB          | NORBERT     |    9876 |     3.50 |
+| WILLIAM      | PILGRIM     |    9876 |     4.00 |
++--------------+-------------+---------+----------+
+10 rows in set (0.000 sec)
+
+
+
+MariaDB [college]> SELECT DISTINCT stdFirstName, stdLastName FROM student JOIN enrollment ON student.stdSSN=enrollment.StdSSN WHERE EnrGrade >= 3.5;  
++--------------+-------------+
+| stdFirstName | stdLastName |
++--------------+-------------+
+| CANDY        | KENDALL     |
+| MARIAH       | DODGE       |
+| HOMER        | WELLS       |
+| ROBERTO      | MORALES     |
+| BOB          | NORBERT     |
+| LUKE         | BRAZZI      |
+| WILLIAM      | PILGRIM     |
++--------------+-------------+
+7 rows in set (0.000 sec)
+
+MariaDB [college]> select offering.OfferNo , offering.CourseNo , OffDays , OffLocation , OffTime, faculty.FacFirstName , faculty.FacLastName  from student join enrollment on student.stdSSN =enrollment.StdSSN join offering on enrollment.OfferNo = offering.OfferNo join faculty on offering.FacSSN = faculty.FacSSN  where stdFirstName ="Bob" and stdLastName ="Norbert" and OffYear =2006 and OffTerm ="Spring";
++---------+----------+---------+-------------+----------+--------------+-------------+
+| OfferNo | CourseNo | OffDays | OffLocation | OffTime  | FacFirstName | FacLastName |
++---------+----------+---------+-------------+----------+--------------+-------------+
+|    5679 | IS480    | TTH     | BLM412      | 15:30:00 | CRISTOPHER   | COLAN       |
+|    9876 | IS460    | TTH     | BLM307      | 13:30:00 | LEONARD      | FIBON       |
++---------+----------+---------+-------------+----------+--------------+-------------+
+2 rows in set (0.001 sec)
